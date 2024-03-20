@@ -1,0 +1,25 @@
+<div>
+    IPFS initialized: {{ initSignal() }}
+</div>
+
+
+<div>
+    <input [(ngModel)]="message"/>
+    Text to save: <input type="submit" value="Submit" (click)="save()">
+</div>
+
+<div>
+    <input [(ngModel)]="cidString"/>
+    CID string: <input type="submit" value="Submit" (click)="loadCid()" placeholder="cid string">
+</div>
+
+<div>
+    Get message: <input type="submit" value="Submit" (click)="getMessage()" placeholder="cid string">
+</div>
+
+<div *ngIf="retrievedMessage; else loading">{{ retrievedMessage }}</div>
+<ng-template #loading>
+    <div *ngIf="messageLoading">Loading</div>
+</ng-template>
+<div *ngIf="cid">{{ cid }}</div>
+<div *ngIf="err">Error: {{ err }}</div>
