@@ -7,12 +7,16 @@ import {AddFileComponent} from "./add-file/add-file.component";
 import {IpfsCoreModule} from "@smpllife/ipfs-core";
 import {FormsModule} from "@angular/forms";
 import {HomeComponent} from "./home/home.component";
+import {OrbitDbKeyValueComponent} from "./components/orbit-db-key-value/orbit-db-key-value.component";
+
+import * as id from './id.json';
 
 @NgModule({
     declarations: [
         AppComponent,
         AddFileComponent,
-        HomeComponent
+        HomeComponent,
+        OrbitDbKeyValueComponent
     ],
     imports: [
         BrowserModule,

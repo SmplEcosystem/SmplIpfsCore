@@ -1,7 +1,6 @@
 <nav>
     <ul>
-        <li><a routerLink="/">Home</a></li>
-        <li><a routerLink="/add">Add File</a></li>
+        <li *ngFor="let route of routes"><a [routerLink]="'/' + route.path">{{ route.data ? route.data["name"] : "Unknown"}}</a></li>
     </ul>
 </nav>
 <main>

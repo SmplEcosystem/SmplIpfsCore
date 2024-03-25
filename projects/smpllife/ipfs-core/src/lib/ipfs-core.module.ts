@@ -7,7 +7,7 @@ import {IpfsCoreConfigDefault} from "./ipfs-core-config-default";
 import {IpfsCoreConfigToken} from "./ipfs-core-config-token";
 
 function initializeHelia(ipfsCoreService: IpfsCoreService) {
-  return (): Promise<void> => ipfsCoreService.initialize()
+  return () => ipfsCoreService.initialize()
 }
 
 

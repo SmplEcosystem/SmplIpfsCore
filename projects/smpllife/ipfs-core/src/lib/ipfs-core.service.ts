@@ -1,4 +1,4 @@
-import {Inject, Injectable, signal} from '@angular/core';
+import {Inject, Injectable, NgZone, signal} from '@angular/core';
 import {createHelia, Helia} from "helia";
 import {toObservable} from "@angular/core/rxjs-interop";
 import {IDBBlockstore} from "blockstore-idb";
@@ -6,17 +6,16 @@ import {createLibp2p} from "libp2p";
 import {Strings, strings} from "@helia/strings";
 import {IpfsCoreConfigToken} from "./ipfs-core-config-token";
 import {IpfsCoreConfig} from "./ipfs-core-config";
+import {BehaviorSubject, Subject} from "rxjs";
 
 @Injectable({
     providedIn: 'root'
 })
 export class IpfsCoreService {
     private _helia?: Helia;
-    private store: IDBBlockstore;
 
-    private _initSignal = signal(!!this._helia);
-    initSignal = this._initSignal.asReadonly();
-    init$ = toObservable(this.initSignal);
+    private _subject = new BehaviorSubject<boolean>(false)
+    init$ = this._subject.asObservable();
 
     get helia(): Helia {
         if (!this.isInitialized) {
@@ -26,23 +25,29 @@ export class IpfsCoreService {
     }
 
     get isInitialized(): boolean {
-        return this.initSignal().valueOf();
+        return !!this._helia;
     }
 
     get strings(): Strings {
         return strings(this.helia);
     }
 
-    constructor(@Inject(IpfsCoreConfigToken) private config: IpfsCoreConfig) {
-        this.store = new IDBBlockstore('ipfs')
+    constructor(@Inject(IpfsCoreConfigToken) private config: IpfsCoreConfig, private zone: NgZone) {
     }
 
-    async initialize() {
-        await this.store.open();
-        if (this.isInitialized) return;
-        await createLibp2p(this.config.libp2pConfig)
-            .then(libp2p => createHelia({blockstore: this.store, libp2p}))
-            .then(helia => this._helia = helia)
-            .then(() => this._initSignal.set(true))
+    initialize() {
+        // this.zone.runOutsideAngular(() => {
+            const store = new IDBBlockstore('ipfs')
+            if (this.isInitialized) return;
+            store.open()
+                .then(() => createLibp2p(this.config.libp2pConfig))
+                .then(libp2p => createHelia({blockstore: store, libp2p}))
+                .then(helia => this._helia = helia)
+                .then(() => this._subject.next(true))
+                .catch((error) => {
+                    console.error('Error initializing Helia:', error);
+                    this._subject.next(false);
+                });
+        // });
     }
 }

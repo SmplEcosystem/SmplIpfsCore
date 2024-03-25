@@ -1,13 +1,14 @@
-import {Component} from '@angular/core';
-import {IpfsCoreService} from '@smpllife/ipfs-core';
+import {Component, OnInit} from '@angular/core';
+import {IpfsCoreService, OrbitDbCoreService} from '@smpllife/ipfs-core';
 import {CID} from 'multiformats/cid';
+import {toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
     selector: 'app-add-file',
     templateUrl: './add-file.component.html',
     styleUrls: ['./add-file.component.scss']
 })
-export class AddFileComponent {
+export class AddFileComponent implements OnInit {
     message?: string;
     retrievedMessage?: string;
 
@@ -19,10 +20,17 @@ export class AddFileComponent {
 
     err?: string;
 
-    initSignal = this.ipfsCoreService.initSignal;
+    initSignal: boolean = false;
+    orbitInitSignal: boolean = false;
 
-    constructor(private ipfsCoreService: IpfsCoreService) {
+    constructor(private ipfsCoreService: IpfsCoreService, private orbitDbCoreService: OrbitDbCoreService) {
         ipfsCoreService.initialize();
+    }
+
+    ngOnInit(): void {
+        this.ipfsCoreService.init$.subscribe((status) => {
+            this.initSignal = status;
+        });
     }
 
     async save() {

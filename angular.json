@@ -21,7 +21,8 @@
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
-              "zone.js"
+              "zone.js",
+              "src/polyfills.ts"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -47,7 +48,18 @@
               "timeout-abort-controller",
               "timestamp-nano",
               "event-iterator",
-              "is-electron"
+              "is-electron",
+              "node-forge/lib/aes.js",
+              "node-forge/lib/asn1.js",
+              "node-forge/lib/forge.js",
+              "node-forge/lib/pbe.js",
+              "node-forge/lib/pbkdf2.js",
+              "node-forge/lib/jsbn.js",
+              "node-forge/lib/util.js",
+              "node-forge/lib/rsa.js",
+              "lru",
+              "browser-level",
+              "bip39"
             ]
           },
           "configurations": {

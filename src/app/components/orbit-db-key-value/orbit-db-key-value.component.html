@@ -1,0 +1,59 @@
+<div>
+    <div>
+        OrbitDbService Initialized: {{ orbitInitSignal }}
+    </div>
+    <div>
+        OrbitDb Initialized: {{ !!orbitDb }}
+    </div>
+    <div>
+        <div *ngIf="orbitDbCid">OrbitDb CID: {{ orbitDbCid }}</div>
+        <div *ngIf="orbitDbName">OrbitDb Name: {{ orbitDbName }}</div>
+        <div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <div>Check/Get data</div>
+    <div>
+        <input [(ngModel)]="cidString">
+    </div>
+    <div>
+        <button (click)="checkAndLoadContent()">Check</button>
+    </div>
+</div>
+
+<div>
+    <div>Add to db</div>
+    <div>
+        Key: <input [(ngModel)]="key">
+        Value: <input [(ngModel)]="value">
+    </div>
+    <button (click)="addToDb()">Add</button>
+</div>
+
+<div>
+    <div>GetValue</div>
+    <div>
+        Key: <input [(ngModel)]="searchKey">
+    </div>
+</div>
+
+<div>
+    <button (click)="getItem()">Load</button>
+</div>
+<div>
+    <div>Value of key</div>
+    <div *ngIf="valueOfKey">{{ valueOfKey }}</div>
+</div>
+
+<div>
+    <button (click)="readDb()">Load</button>
+</div>
+
+<div>
+    <div>
+        <div>Db content</div>
+        <div *ngFor="let item of dbEntries">{{ item.key }}: {{ item.value }}</div>
+    </div>
+</div>

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { IpfsCoreService } from './ipfs-core.service';
+import { OrbitDbCoreService } from './orbit-db-core.service';
 
-describe('IpfsCoreService', () => {
-  let service: IpfsCoreService;
+describe('OrbitDbCoreService', () => {
+  let service: OrbitDbCoreService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(IpfsCoreService);
+    service = TestBed.inject(OrbitDbCoreService);
   });
 
   it('should be created', () => {
